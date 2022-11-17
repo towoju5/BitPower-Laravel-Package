@@ -57,7 +57,7 @@ class Bitpowr
      */
     public function getAddress($data)
     {
-        return $this->run_curl("addresses", "GET", array $data);
+        return $this->run_curl("addresses", "GET", $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class Bitpowr
      */
     public function getAddressById($addressId)
     {
-        return $this->run_curl("addresses/$addressId", "GET", NULL);
+        return $this->run_curl("addresses/$addressId", "GET", []);
     }
 
     /**
@@ -73,7 +73,7 @@ class Bitpowr
      */
     public function getAddressTransactions($addressId)
     {
-        return $this->run_curl("addresses/$addressId/transactions", "GET", NULL);
+        return $this->run_curl("addresses/$addressId/transactions", "GET", []);
     }
 
     /**
@@ -81,12 +81,12 @@ class Bitpowr
      */
     public function getAddressBalance($addressId)
     {
-        return $this->run_curl("addresses/$addressId/balance", "GET", NULL);
+        return $this->run_curl("addresses/$addressId/balance", "GET", []);
     }
 
 
 
-    private function run_curl($endpoint, $method, $data=NULL)
+    private function run_curl($endpoint, $method, array $data=[])
     {
         // run curl request
         $method = strtoupper($method);
