@@ -26,9 +26,9 @@ class Bitpowr
 
     /**
      * @param array data [
-     *      @param string label
-     *      @param string asset
-     *      @param string accountId
+     *      @param string label required
+     *      @param string asset required
+     *      @param string accountId required
      *      @param string addressType
      * ]
      */
@@ -39,24 +39,38 @@ class Bitpowr
 
     /**
      * This endpoint generates a list of all created address for a sub account
+     * @param array data [
+     *      @param string assetId :The assetId of the addresses you want to get.
+     *      @param string accountId : The accountId of the addresses you want to get.
+     *      @param string subAccountId : The subAccountId of the addresses you want to get.
+     * ]
      */
     public function getAddress($data)
     {
-        return $this->run_curl("addresses", "GET", $data);
+        return $this->run_curl("addresses", "GET", array $data);
     }
 
-    public function getAddressById($data)
+    /**
+     * @param string addressId : The uid of the address you want to get.
+     */
+    public function getAddressById($addressId)
     {
-        return $this->run_curl("addresses", "GET", $data);
+        return $this->run_curl("addresses/$addressId", "GET", NULL);
     }
 
-    public function getAddressTransactions()
+    /**
+     * @param string addressId : The addressId of the transaction you want to get.
+     */
+    public function getAddressTransactions($addressId)
     {
-        return $this->run_curl("addresses", "GET", $data);
+        return $this->run_curl("addresses/$addressId/transactions", "GET", NULL);
     }
 
-    public function getAddressBalance()
+    /**
+     * @param string addressId : The addressId of the balance you want to get.
+     */
+    public function getAddressBalance($addressId)
     {
-        return $this->run_curl("addresses", "GET", $data);
+        return $this->run_curl("addresses/$addressId/balance", "GET", NULL);
     }
 }
