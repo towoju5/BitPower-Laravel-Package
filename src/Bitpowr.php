@@ -93,7 +93,7 @@ class Bitpowr
         $curl_url = $this->baseUrl . $endpoint;
         // Set URL & Header
         $headers = array(
-            'BEARER ' . $this->key,
+            "Authorization: Bearer $this->key",
             'accept: application/json',
             'content-type: application/x-www-form-urlencoded'
         );
