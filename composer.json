@@ -24,6 +24,9 @@
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {
+        "file": {
+            "src/helper.php"
+        },
         "psr-4": {
             "Towoju5\\Bitpowr\\": "src"
         }
