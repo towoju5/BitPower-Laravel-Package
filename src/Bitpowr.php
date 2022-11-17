@@ -13,6 +13,16 @@ class Bitpowr
     public function __construct()
     {
         $this->baseUrl = "https://developers.bitpowr.com/api/v1/";
+        $this->key = getenv('BIT_POWR_TOKEN');
+        $this->curl       = curl_init();
+        $curl_options     = [
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 20,
+            CURLOPT_TIMEOUT => 300
+        ];
+
+        curl_setopt_array($this->curl, $curl_options);
     }
 
     /**
@@ -72,5 +82,45 @@ class Bitpowr
     public function getAddressBalance($addressId)
     {
         return $this->run_curl("addresses/$addressId/balance", "GET", NULL);
+    }
+
+
+
+    private function run_curl($endpoint, $method, $data=NULL)
+    {
+        // run curl request
+        $method = strtoupper($method);
+        $curl_url = $this->baseUrl . $endpoint;
+        // Set URL & Header
+        $headers = array(
+            'BEARER ' . $this->key,
+            'accept: application/json',
+            'content-type: application/x-www-form-urlencoded'
+        );
+
+        // make request
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
+
+        // Set URL & Header
+        curl_setopt($this->curl, CURLOPT_URL, $curl_url);
+
+        //Add post vars
+        if ($method == "POST") {
+            curl_setopt($this->curl, CURLOPT_POST, 1);
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+
+        //Get result
+        $result = curl_exec($this->curl);
+        // var_dump($result); exit;
+        if ($result === false)
+            throw new \Exception('CURL error: ' . curl_error($this->curl));
+
+        // decode results
+        $result = json_decode($result, true);
+        if (!is_array($result) || json_last_error())
+            throw new \Exception('JSON decode error');
+
+        return $result;
     }
 }
