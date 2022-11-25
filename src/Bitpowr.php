@@ -12,10 +12,10 @@ class Bitpowr
 {
     public function __construct()
     {
-        $this->baseUrl = "https://developers.bitpowr.com/api/v1/";
-        $this->key = getenv('BIT_POWR_TOKEN');
-        $this->curl       = curl_init();
-        $curl_options     = [
+        $this->baseUrl  = "https://developers.bitpowr.com/api/v1/";
+        $this->key      = getenv('BIT_POWR_TOKEN');
+        $this->curl     = curl_init();
+        $curl_options   = [
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 20,
@@ -82,6 +82,14 @@ class Bitpowr
     public function getAddressBalance($addressId)
     {
         return $this->run_curl("addresses/$addressId/balance", "GET", []);
+    }
+
+    /**
+     * @param string Fait : Base currency.
+     */
+    public function getMarketPrice($fait="USD")
+    {
+        return $this->run_curl("market/price", "GET", []);
     }
 
 
